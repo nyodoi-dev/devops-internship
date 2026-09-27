@@ -1,0 +1,23 @@
+{
+    "timestamp": "2026-09-27 13:24:26.613117",
+    "system_info": {
+        "hostname": "aya",
+        "uptime": "up 15 hours, 10 minutes",
+        "disk_usage": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sdd       1007G  1.7G  955G   1% /",
+        "memory": "total        used        free      shared  buff/cache   available\nMem:            5823         551        5185           3         235        5272\nSwap:           2048           0        2048"
+    },
+    "services": {
+        "cron": "active",
+        "fake_service": "inactive"
+    },
+    "urls": {
+        "https://github.com": {
+            "status": "UP",
+            "code": 200
+        },
+        "https://fake-website-for-testing.com": {
+            "status": "DOWN",
+            "error": "Connection Failed"
+        }
+    }
+}
