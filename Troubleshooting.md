@@ -17,3 +17,9 @@
 * Commands used: 'sudo docker ps -a' (to see containers that stopped) and 'sudo docker logs'.
 * Root Cause: I realized that a container only stays alive as long as its main job is running. If the 'CMD' in the Dockerfile is just a quick script that finishes instantly, the container thinks its job is done and turns itself off.
 * Fix: Make sure the 'CMD' in the Dockerfile is running something that stays open continuously, like our FastAPI web server ('uvicorn').
+
+## Database Connection Refused (The Localhost Trap)
+* Symptom: The Python application crashes with a 'ConnectionRefusedError: [Errno 111]' when trying to connect to the database.
+* Commands used: 'docker compose exec app python -c "import socket..."' to test the connection manually.
+* Root Cause: The application was configured to look for the database at 'localhost:5432'. Inside a Docker container, 'localhost' means *that specific container*. The app was looking for a database inside itself, which didn't exist.
+* Fix: Change the connection string to use the Docker Compose service name (e.g., `db:5432`). Docker's internal DNS automatically routes the name `db` to the correct database container.
