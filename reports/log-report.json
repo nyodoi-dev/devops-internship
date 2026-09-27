@@ -1,0 +1,12 @@
+{
+    "summary": {
+        "INFO": 25,
+        "WARNING": 2,
+        "ERROR": 3
+    },
+    "error_details": [
+        "ERROR: Failed to connect to payment gateway",
+        "ERROR: Payment gateway connection timeout",
+        "ERROR: Unexpected payload received on /webhook"
+    ]
+}
