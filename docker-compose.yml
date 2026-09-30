@@ -1,9 +1,8 @@
 version: '3.8'
 
 services:
-  # ---------------------------------
   # 1. OUR PYTHON APPLICATION
-  # ---------------------------------
+  
   app:
     build: .                  
     container_name: devops-app
@@ -14,9 +13,9 @@ services:
     depends_on:
       - db                    
 
-  # ---------------------------------
+  
   # 2. THE POSTGRESQL DATABASE
-  # ---------------------------------
+  
   db:
     image: postgres:15-alpine # The official lightweight Postgres image
     container_name: devops-db
