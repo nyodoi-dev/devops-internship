@@ -1,0 +1,13 @@
+ IAM User: A specific person or automated service that holds credentials to interact with AWS.
+ IAM Role: A temporary identity that a user or service can assume to gain permissions without requiring credentials.  
+ Policy: A JSON document attached to a user or role that strictly defines which exact AWS actions they are allowed or denied to perform.
+ Least Privilege: The core cloud security principle of granting an entity only the absolute minimum permissions required to execute its specific task.   
+Never Commit Credentials to Git: If credentials leak into Git, automated bots scraping public repositories can get access to the account
+
+
+so i tried to connect to my instance from my local terminal and i got "curl: (28) Failed to connect to 51.20.8.58 port 80 after 135061 ms: Could not connect to server"
+which was because my inbound was not set to all access from else where 
+i created an inbound rule to allow access 
+so first, i created one rule but it still wasnt connect 
+after investigations i learnt that the work places firewall was blocking access
+so i then created another rule and i change the assigned port from 8000:8000 to 80:8000 and it worked
