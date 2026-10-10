@@ -33,3 +33,16 @@ My public subnet's route table contains two primary rules:
 Practice 5: Prove Connectivity
 Authorized Test: From the EC2 application instance (assigned to devops-app-sg), testing the PostgreSQL connection on Port 5432 succeeds. The database security group explicitly whitelists traffic originating from devops-app-sg.
 Unauthorized Test: From my local laptop, attempting to reach the database fails completely. It is blocked at two distinct layers: the database resides in a private subnet (meaning it has no route to the public internet), and the security group rejects all external IP addresses.
+
+
+Explain public and private subnets.
+A public subnet has a route table entry that directs traffic to an Internet Gateway, allowing resources inside to communicate with the outside world. A private subnet has no route to the Internet Gateway, meaning its resources are completely isolated from direct internet access.
+
+Explain why a route table is required.
+A route table acts as the traffic director for a subnet. Without it, network packets would not know where to go—it defines exactly which IP ranges stay local within the VPC and which are sent out to the internet.
+
+Explain the difference between a Security Group and a Network ACL.
+A Security Group acts as a stateful firewall at the individual instance (server) level. A Network ACL acts as a stateless firewall at the broader subnet level, controlling traffic before it even reaches the specific instances.
+
+Explain why PostgreSQL should live in a private network segment in a production-style architecture.
+Placing the database in a private subnet minimizes the attack surface. It ensures the database cannot be directly accessed or brute-forced from the public internet. Instead, it only accepts internal traffic from the authorized application server, which acts as a secure intermediary.
