@@ -1,0 +1,35 @@
+IAM User: A specific person or automated service that holds credentials to interact
+with AWS
+ 
+IAM role: A temporary identity that a user or service can assume to gain permission 
+without requiring permanent or  static cred
+
+Policy: A JSON document attached to a user or role that strictly defines which exact AWS
+action they are allowed or denied to perform
+
+Least Privilege: The core cloud security principle of granting an entity only the 
+absolute minimum permissions required to execute its specific task
+
+day 9
+Practice 1: Network Design
+To securely host the application and isolate the database, I designed the following network topology:
+VPC CIDR: 10.0.0.0/16 (Provides 65,536 IP addresses for the entire network envelope).
+Public Subnet: 10.0.1.0/24 (Provides 256 IPs. Hosts the EC2 instance and routes out to the internet).
+Private Subnet: 10.0.2.0/24 (Provides 256 IPs. Hosts the PostgreSQL database).
+
+Why they do not overlap
+The VPC reserves the entire 10.0.X.X  space. The two subnets are carved out of this space using distinct third octets (.1. and .2.). Because their ranges are mathematically separate, devices in the public subnet cannot accidentally share IPs with devices in the private subnet, ensuring strict network segregation.
+
+
+Practice 3: Understanding the Routes
+My public subnet's route table contains two primary rules:
+
+ Destination: 10.0.0.0/16 | Target: local
+   Meaning: This is the internal network route. It tells the router that any traffic destined for an IP address inside our VPC should stay internal. This allows resources in the public subnet to securely communicate with resources in the private subnet without the traffic ever leaving the AWS cloud.
+
+ Destination: 0.0.0.0/0 | Target: Internet Gateway
+   Meaning: This is the "default route" or the catch-all. If an instance tries to reach an IP address that is not part of the local 10.0.0.0/16 network (like downloading updates from the web or returning a webpage to a user), this rule directs that traffic out to the internet through the attached Internet Gateway.
+
+Practice 5: Prove Connectivity
+Authorized Test: From the EC2 application instance (assigned to devops-app-sg), testing the PostgreSQL connection on Port 5432 succeeds. The database security group explicitly whitelists traffic originating from devops-app-sg.
+Unauthorized Test: From my local laptop, attempting to reach the database fails completely. It is blocked at two distinct layers: the database resides in a private subnet (meaning it has no route to the public internet), and the security group rejects all external IP addresses.
